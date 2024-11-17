@@ -1,5 +1,5 @@
 [project]
-name = "typos"
+name = "typos-mirror"  
 version = "1.27.3"
 dependencies = [
     "typos==1.27.3",
