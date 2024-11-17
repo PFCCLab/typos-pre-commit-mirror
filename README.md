@@ -1,7 +1,5 @@
-# black-pre-commit-mirror
+# typos-pre-commit-mirror
 
-mypyc wheels go brr
 
-For example `pre-commit` configs, please see the [black VCS integration docs][1]
+For example `pre-commit` configs, please see the [pre-commit.md](https://github.com/crate-ci/typos/blob/master/docs/pre-commit.md)
 
-[1]: https://black.readthedocs.io/en/stable/integrations/source_version_control.html
