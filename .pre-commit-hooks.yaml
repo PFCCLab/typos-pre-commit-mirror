@@ -6,4 +6,4 @@
   language: python
   minimum_pre_commit_version: 2.9.2
   require_serial: true
-  types_or: [] # 对所有文件类型进行检查
+  types_or: [text]
