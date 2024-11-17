@@ -1,6 +1,6 @@
 [project]
 name = "typos"
-version = "1.27.2"
+version = "1.27.3"
 dependencies = [
     "typos==1.27.3",
 ]
