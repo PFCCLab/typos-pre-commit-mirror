@@ -1,5 +1,5 @@
-- id: typos-mirror
-  name: typos-mirror
+- id: typos
+  name: typos
   description: "typos-mirror: check the typo error in commit"
   entry: typos
   language: python
