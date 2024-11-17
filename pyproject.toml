@@ -1,11 +1,6 @@
 [project]
-name = "black-pre-commit-mirror"
-version = "0.1.0"
+name = "typos"
+version = "1.27.3"
 dependencies = [
-    "black==24.10.0",
-]
-
-[project.optional-dependencies]
-jupyter = [
-    "black[jupyter]",
+    "typos==1.27.3",
 ]
