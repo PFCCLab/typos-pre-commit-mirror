@@ -61,7 +61,7 @@ def main():
             f.write(readme)
 
         # Commit and tag
-        subprocess.run(["git", "add", "pyproject.toml"])
+        subprocess.run(["git", "add", "pyproject.toml", "README.md"])
         subprocess.run(
             ["git", "commit", "-m", f":arrow_up: bump typos version to {version}"]
         )
