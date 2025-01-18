@@ -62,7 +62,9 @@ def main():
 
         # Commit and tag
         subprocess.run(["git", "add", "pyproject.toml"])
-        subprocess.run(["git", "commit", "-m", f"Update typos to {version}"])
+        subprocess.run(
+            ["git", "commit", "-m", f":arrow_up: bump typos version to {version}"]
+        )
         subprocess.run(["git", "tag", f"v{version}"])
 
 
