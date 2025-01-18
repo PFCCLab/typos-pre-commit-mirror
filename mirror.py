@@ -1,3 +1,13 @@
+# /// script
+# requires-python = ">=3.9"
+# dependencies = [
+#     "tomli>=2.2.1",
+#     "tomli-w>=1.2.0",
+#     "urllib3>=2",
+#     "packaging>=21.0",
+# ]
+# ///
+
 import subprocess
 from pathlib import Path
 
@@ -9,7 +19,7 @@ from packaging.version import Version
 
 
 def main():
-    # 读取 pyproject.toml 文件
+    # Load pyproject.toml
     with open(Path(__file__).parent / "pyproject.toml", "rb") as f:
         pyproject = tomli.load(f)
 
@@ -23,7 +33,7 @@ def main():
     assert typos_specs[0].operator == "=="
     current_version = Version(typos_specs[0].version)
 
-    # 从 PyPI 获取 typos 的所有版本
+    # Get typos versions from PyPI
     http = urllib3.PoolManager()
     resp = http.request("GET", "https://pypi.org/pypi/typos/json")
     if resp.status != 200:
@@ -33,16 +43,15 @@ def main():
     versions = [v for v in versions if v > current_version and not v.is_prerelease]
     versions.sort()
 
-    # 如果有新版本，更新 pyproject.toml 文件并提交
+    # Update typos for each version
     for version in versions:
-        # 更新 dependencies 部分
+        # Update pyproject.toml
+        pyproject["project"]["version"] = str(version)
         pyproject["project"]["dependencies"] = [f"typos=={version}"]
-
-        # 写入更新后的 pyproject.toml
         with open(Path(__file__).parent / "pyproject.toml", "wb") as f:
             tomli_w.dump(pyproject, f)
 
-        # 执行 Git 操作
+        # Commit and tag
         subprocess.run(["git", "add", "pyproject.toml"])
         subprocess.run(["git", "commit", "-m", f"Update typos to {version}"])
         subprocess.run(["git", "tag", f"v{version}"])
