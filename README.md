@@ -1,6 +1,15 @@
 # typos-pre-commit-mirror
 
-Support `pre-commit <= 3.2.0`.<br>
+Mirror of the `typos` pre-commit hook for `pre-commit`. Supports `pre-commit` versions 2.9.2 and later.
 
-For example `pre-commit` configs, please see the [pre-commit.md](https://github.com/crate-ci/typos/blob/master/docs/pre-commit.md)
+## Usage
 
+Add this to your `.pre-commit-config.yaml`:
+
+```yaml
+- repo: https://github.com/PFCCLab/typos-pre-commit-mirror.git
+  rev: v1.29.4
+  hooks:
+    - id: typos
+      args: [--force-exclude]
+```

@@ -22,6 +22,9 @@ def main():
     # Load pyproject.toml
     with open(Path(__file__).parent / "pyproject.toml", "rb") as f:
         pyproject = tomli.load(f)
+    # Load README.md
+    with open(Path(__file__).parent / "README.md", "r") as f:
+        readme = f.read()
 
     # 获取当前版本的 typos
     deps = pyproject["project"]["dependencies"]
@@ -48,8 +51,14 @@ def main():
         # Update pyproject.toml
         pyproject["project"]["version"] = str(version)
         pyproject["project"]["dependencies"] = [f"typos=={version}"]
+        # Update README.md
+        readme = readme.replace(str(current_version), str(version))
+
+        # Write pyproject.toml and README.md
         with open(Path(__file__).parent / "pyproject.toml", "wb") as f:
             tomli_w.dump(pyproject, f)
+        with open(Path(__file__).parent / "README.md", "w") as f:
+            f.write(readme)
 
         # Commit and tag
         subprocess.run(["git", "add", "pyproject.toml"])
