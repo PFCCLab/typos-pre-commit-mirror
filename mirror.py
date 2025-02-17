@@ -52,13 +52,13 @@ def main():
         pyproject["project"]["version"] = str(version)
         pyproject["project"]["dependencies"] = [f"typos=={version}"]
         # Update README.md
-        readme = readme.replace(str(current_version), str(version))
+        updated_readme = readme.replace(str(current_version), str(version))
 
         # Write pyproject.toml and README.md
         with open(Path(__file__).parent / "pyproject.toml", "wb") as f:
             tomli_w.dump(pyproject, f)
         with open(Path(__file__).parent / "README.md", "w") as f:
-            f.write(readme)
+            f.write(updated_readme)
 
         # Commit and tag
         subprocess.run(["git", "add", "pyproject.toml", "README.md"])
