@@ -8,7 +8,7 @@ Add this to your `.pre-commit-config.yaml`:
 
 ```yaml
 - repo: https://github.com/PFCCLab/typos-pre-commit-mirror.git
-  rev: v1.31.1
+  rev: v1.31.2
   hooks:
     - id: typos
       args: [--force-exclude]
