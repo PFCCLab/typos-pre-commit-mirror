@@ -1,6 +1,6 @@
 [project]
 name = "typos-mirror"
-version = "1.35.5"
+version = "1.35.6"
 dependencies = [
-    "typos==1.35.5",
+    "typos==1.35.6",
 ]
