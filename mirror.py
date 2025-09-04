@@ -9,6 +9,7 @@
 # ///
 
 import subprocess
+import re
 from pathlib import Path
 
 import tomli
@@ -46,13 +47,26 @@ def main():
     versions = [v for v in versions if v > current_version and not v.is_prerelease]
     versions.sort()
 
+    if not versions:
+        print("No new versions to update")
+        return
+
+    print(f"Found {len(versions)} new version(s): {versions}")
+
     # Update typos for each version
     for version in versions:
+        print(f"Processing version {version}...")
+        
         # Update pyproject.toml
         pyproject["project"]["version"] = str(version)
         pyproject["project"]["dependencies"] = [f"typos=={version}"]
         # Update README.md
-        updated_readme = readme.replace(str(current_version), str(version))
+        # Replace the rev line specifically to avoid partial matches
+        updated_readme = re.sub(
+            r'(\s+rev:\s+)v[0-9]+\.[0-9]+\.[0-9]+',
+            rf'\1v{version}',
+            readme
+        )
 
         # Write pyproject.toml and README.md
         with open(Path(__file__).parent / "pyproject.toml", "wb") as f:
@@ -61,11 +75,23 @@ def main():
             f.write(updated_readme)
 
         # Commit and tag
-        subprocess.run(["git", "add", "pyproject.toml", "README.md"])
+        subprocess.run(["git", "add", "pyproject.toml", "README.md"], check=True)
         subprocess.run(
-            ["git", "commit", "-m", f":arrow_up: bump typos version to {version}"]
+            ["git", "commit", "-m", f":arrow_up: bump typos version to {version}"],
+            check=True
         )
-        subprocess.run(["git", "tag", f"v{version}"])
+        # Check if tag already exists before creating it
+        result = subprocess.run(["git", "tag", "-l", f"v{version}"], capture_output=True, text=True)
+        if not result.stdout.strip():
+            subprocess.run(["git", "tag", f"v{version}"], check=True)
+            print(f"Created tag v{version}")
+        else:
+            print(f"Tag v{version} already exists, skipping")
+
+        # Update readme for next iteration
+        readme = updated_readme
+
+    print(f"Successfully processed {len(versions)} version(s)")
 
 
 if __name__ == "__main__":
